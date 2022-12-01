@@ -27,16 +27,20 @@ export class HttpProviderService {
   public getAllEmployee(): Observable<any> {
     return this.webApiService.get(this.httpLink.getAllEmployee);
   }
-  public deleteEmployeeById(model: any): Observable<any> {
-    return this.webApiService.post(this.httpLink.deleteEmployeeById + '?employeeId=' + model, "");
+  public deleteEmployeeById(employeId: any): Observable<any> {
+    return this.webApiService.delete(this.httpLink.deleteEmployeeById + '/' + employeId);
   }
   public getEmployeeDetailById(model: any): Observable<any> {
-    return this.webApiService.get(this.httpLink.getEmployeeDetailById + '?employeeId=' + model);
+    return this.webApiService.get(this.httpLink.getEmployeeDetailById + '/' + model);
   }
   public saveEmployee(model: any, ben: any): Observable<any> {
     console.log(model,ben);
-    let data = {"employe":model, "beneficiary":ben}
+    let data = {"employe":model, "beneficiary":[ben]}
     console.log(data);
     return this.webApiService.post(this.httpLink.saveEmployee, data);
+  }
+  public updateEmployee(model: any, employeId: any): Observable<any> {
+    let data = {"employe":model}
+    return this.webApiService.update(this.httpLink.saveEmployee+'/'+employeId, model);
   }
 }

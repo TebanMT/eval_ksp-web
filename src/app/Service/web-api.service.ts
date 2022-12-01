@@ -52,9 +52,46 @@ export class WebApiService {
         catchError(this.handleError)
       );
   }
+
+  delete(url: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+      }), 
+     observe: "response" as 'body'
+    };
+    return this.httpClient.delete(
+      url,
+      httpOptions)
+      .pipe(
+        map((response: any) => this.ReturnResponseData(response)),
+        catchError(this.handleError)
+      );
+  }
+
+  update(url: string, model: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+      }), 
+     observe: "response" as 'body'
+    };
+    return this.httpClient.put(
+      url,
+      model,
+      httpOptions)
+      .pipe(
+        map((response: any) => this.ReturnResponseData(response)),
+        catchError(this.handleError)
+      );
+  }
+
   private ReturnResponseData(response: any) {
     return response;
   }
+
   private handleError(error: any) {
     return throwError(error);
   }

@@ -48,7 +48,8 @@ export class AddEmployeeComponent implements OnInit {
         if (data != null && data.body != null) {
           if (data != null && data.body != null) {
             var resultData = data.body;
-            if (resultData != null && resultData.isSuccess) {
+            console.log(data)
+            if (resultData != null && data.status==201) {
               this.toastr.success(resultData.message);
               setTimeout(() => {
                 this.router.navigate(['/Home']);

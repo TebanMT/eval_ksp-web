@@ -4,6 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpProviderService } from '../Service/http-provider.service';
 
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
+}
+
+
 @Component({
   selector: 'app-edit-employee',
   templateUrl: './edit-employee.component.html',
@@ -17,6 +22,7 @@ export class EditEmployeeComponent implements OnInit {
 
   isSubmitted: boolean = false;
   employeeId: any;
+  selectedFile: ImageSnippet;
 
   constructor(private toastr: ToastrService, private route: ActivatedRoute, private router: Router,
     private httpProvider: HttpProviderService) { }
@@ -30,31 +36,32 @@ export class EditEmployeeComponent implements OnInit {
       if (data != null && data.body != null) {
         var resultData = data.body;
         if (resultData) {
-          this.editEmployeeForm.Id = resultData.id;
-          this.editEmployeeForm.FirstName = resultData.firstName;
-          this.editEmployeeForm.LastName = resultData.lastName;
-          this.editEmployeeForm.Email = resultData.email;
-          this.editEmployeeForm.Address = resultData.address;
-          this.editEmployeeForm.Phone = resultData.phone;
+          this.editEmployeeForm.id = resultData.id;
+          this.editEmployeeForm.name = resultData.name;
+          this.editEmployeeForm.job_position = resultData.job_position;
+          this.editEmployeeForm.salary = resultData.salary;
+          this.editEmployeeForm.status = resultData.status;
+          this.editEmployeeForm.date_hire = resultData.date_hire;
+          this.editEmployeeForm.photo = resultData.photo;
         }
       }
     },
       (error: any) => { });
   }
 
-  EditEmployee(isValid: any) {
+  UpdateEmployee(isValid: any) {
     this.isSubmitted = true;
     if (isValid) {
-      this.httpProvider.saveEmployee(this.editEmployeeForm,"").subscribe(async data => {
+      if (this.selectedFile)
+        this.editEmployeeForm.photo=this.selectedFile.src
+      this.httpProvider.updateEmployee(this.editEmployeeForm, this.editEmployeeForm.id).subscribe(async data => {
+        console.log(data)
         if (data != null && data.body != null) {
-          var resultData = data.body;
-          if (resultData != null && resultData.isSuccess) {
-            if (resultData != null && resultData.isSuccess) {
-              this.toastr.success(resultData.message);
+          if (data.status == 200) {
+              this.toastr.success(data.statusText);
               setTimeout(() => {
                 this.router.navigate(['/Home']);
               }, 500);
-            }
           }
         }
       },
@@ -66,13 +73,35 @@ export class EditEmployeeComponent implements OnInit {
         });
     }
   }
+
+  ProcessFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+    });
+
+    reader.readAsDataURL(file);
+  }
+
 }
 
 export class employeeForm {
-  Id: number = 0;
-  FirstName: string = "";
-  LastName: string = "";
-  Email: string = "";
-  Address: string = "";
-  Phone: string = "";
+  id: string = "";
+  name: string = "";
+  job_position: string = "";
+  salary: string = "";
+  status: string = "";
+  date_hire: string = "";
+  photo: any;
+}
+
+export class benifiaryForm {
+  name: string = "";
+  relationship: string = "";
+  date_born: string = "";
+  gender: string = "";
+  employed_id: string="";
 }

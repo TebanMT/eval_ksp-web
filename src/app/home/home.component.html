@@ -23,16 +23,18 @@
                   <th>Status</th>
                   <th>Date</th>
                   <th>Photo</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let employee of employeeList" class="center-align">
-                  <td>{{ employee.firstName }}</td>
-                  <td>{{ employee.lastName }}</td>
-                  <td>{{ employee.email }}</td>
-                  <td>{{ employee.address }}</td>
-                  <td>{{ employee.phone }}</td>
-                  <td>{{ employee.phone }}</td>
+                  <td>{{ employee.id }}</td>
+                  <td>{{ employee.name }}</td>
+                  <td>{{ employee.job_position }}</td>
+                  <td>{{ employee.salary }}</td>
+                  <td>{{ employee.status }}</td>
+                  <td>{{ employee.date_hire }}</td>
+                  <td> <img [src]="employee.photo" id="photo"></td>
               <td>
                 <a href="#" [routerLink]="['/ViewEmployee/', employee.id]" class="btn"><i class='fas fa-eye view'></i></a>
                 <a href="#" [routerLink]="['/EditEmployee/', employee.id]" class="btn"><i class="fa fa-edit edit"></i></a>

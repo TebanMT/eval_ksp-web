@@ -36,7 +36,7 @@
             </div>
             <div class="form-group p-10 row">
               <div class="col-sm-3">
-                <label class="p-t-b-10">salary<span class="requiredStar">*</span></label>
+                <label class="p-t-b-10">Salary<span class="requiredStar">*</span></label>
               </div>
               <div class="col-sm-9">
                 <input type="number" class="form-control" id="salary"
@@ -50,7 +50,15 @@
               <div class="col-sm-9">
                 <textarea class="form-control" id="status" required [(ngModel)]="addEmployeeForm.status" name="Address"
                   #status="ngModel">></textarea>
-                
+              </div>
+            </div>
+            <div class="form-group p-10 row">
+              <div class="col-sm-3">
+                <label class="p-t-b-10">Date of Hire<span class="requiredStar">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <textarea class="form-control" id="date_hire" required [(ngModel)]="addEmployeeForm.date_hire" name="Address"
+                  #date_hire="ngModel">></textarea>
               </div>
             </div>
             <div class="form-group p-10 row">

@@ -42,12 +42,16 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllEmployee();
   }
+
   async getAllEmployee() {
     this.httpProvider.getAllEmployee().subscribe((data : any) => {
       if (data != null && data.body != null) {
         var resultData = data.body;
+        console.log(data.body)
         if (resultData) {
-          this.employeeList = resultData;
+          this.employeeList = resultData.filter(e => e.status != "false");
+          console.log(resultData)
+          console.log(this.employeeList)
         }
       }
     },
@@ -78,12 +82,10 @@ export class HomeComponent implements OnInit {
 
   deleteEmployee(employee: any) {
     this.httpProvider.deleteEmployeeById(employee.id).subscribe((data : any) => {
-      if (data != null && data.body != null) {
-        var resultData = data.body;
-        if (resultData != null && resultData.isSuccess) {
-          this.toastr.success(resultData.message);
+      console.log(data)
+      if (data != null && data.status == 204) {
+          this.toastr.success("Eliminado");
           this.getAllEmployee();
-        }
       }
     },
     (error : any) => {});

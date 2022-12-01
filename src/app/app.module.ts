@@ -33,6 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NgModalConfirm]
 })
 export class AppModule { }
